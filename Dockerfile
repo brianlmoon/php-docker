@@ -1,17 +1,16 @@
-FROM php:7.4.0RC3-fpm-buster
+FROM php:8.1.3-fpm-buster
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+        nano \
         git \
+        zip \
         unzip && \
     rm -r /var/lib/apt/lists/* && \
     apt autoremove -y
 
 # Install composer
-COPY scripts/getcomposer.sh /usr/local/bin/getcomposer.sh
-RUN /usr/local/bin/getcomposer.sh && \
-    rm /usr/local/bin/getcomposer.sh && \
-    mv /var/www/html/composer.phar /usr/local/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # Add php user and group and add /app dir owned by php
 RUN groupadd -g 1000 php && \
