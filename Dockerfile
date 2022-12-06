@@ -9,6 +9,12 @@ RUN apt-get update && \
     rm -r /var/lib/apt/lists/* && \
     apt autoremove -y
 
+RUN curl -sSLf \
+        -o /usr/local/bin/install-php-extensions \
+        https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions && \
+    chmod +x /usr/local/bin/install-php-extensions && \
+    install-php-extensions mysqli pdo_mysql pdo_pgsql pgsql
+
 # Install composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
