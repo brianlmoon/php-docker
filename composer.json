@@ -12,7 +12,6 @@
         "ext-hash": "*",
         "ext-iconv": "*",
         "ext-igbinary": "*",
-        "ext-imagick": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-memcached": "*",

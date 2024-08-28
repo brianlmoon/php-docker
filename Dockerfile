@@ -37,29 +37,28 @@ RUN apk add --no-cache \
 # SHOULD BE ADDED TO THE COMPOSER.JSON FILE
 # TO ENSURE THE BUILD WORKED!!!!
 RUN install-php-extensions \
-        bcmath \
-        bz2 \
-        gd \
-        gmp \
-        igbinary \
-        imagick \
-        memcached \
-        mysqli \
-        oauth \
-        opcache \
-        pcntl \
-        pdo_mysql \
-        pdo_pgsql \
-        pgsql \
-        soap \
-        sockets \
-        tidy \
-        xhprof \
-        yaml \
-        zip
+    bcmath \
+    bz2 \
+    gd \
+    gmp \
+    igbinary \
+    memcached \
+    mysqli \
+    oauth \
+    opcache \
+    pcntl \
+    pdo_mysql \
+    pdo_pgsql \
+    pgsql \
+    soap \
+    sockets \
+    tidy \
+    xhprof \
+    yaml \
+    zip
 
 # Install Dockerize used in the entrypoint
-ENV DOCKERIZE_VERSION v0.6.1
+ENV DOCKERIZE_VERSION v0.8.0
 RUN curl -L -O https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz

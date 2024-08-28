@@ -5,26 +5,32 @@ set -e
 function build() {
     IMAGE=$1
 
-    docker build -t brianlmoon/php:$IMAGE --build-arg BASEIMAGE=$IMAGE .
+    echo "Building $IMAGE"
 
-    VERSION=`docker run --rm brianlmoon/php:$IMAGE php -r 'echo phpversion();'`
+    VERSION=`docker run --rm php:$IMAGE php -r 'echo phpversion();'`
 
-    docker tag brianlmoon/php:$IMAGE brianlmoon/php:`echo $VERSION | awk -F . {'print $1"."$2"."$3'}`
-    docker tag brianlmoon/php:$IMAGE brianlmoon/php:`echo $VERSION | awk -F . {'print $1"."$2'}`
-    docker tag brianlmoon/php:$IMAGE brianlmoon/php:`echo $VERSION | awk -F . {'print $1'}`
+    TAGS=""
 
-    docker push brianlmoon/php:$IMAGE
-    docker push brianlmoon/php:`echo $VERSION | awk -F . {'print $1"."$2"."$3'}`
-    docker push brianlmoon/php:`echo $VERSION | awk -F . {'print $1"."$2'}`
-    docker push brianlmoon/php:`echo $VERSION | awk -F . {'print $1'}`
+    TAGS="$TAGS -t brianlmoon/php:"`echo $VERSION | awk -F . {'print $1"."$2"."$3'}`
+    TAGS="$TAGS -t brianlmoon/php:"`echo $VERSION | awk -F . {'print $1"."$2'}`
+    TAGS="$TAGS -t brianlmoon/php:"`echo $VERSION | awk -F . {'print $1'}`
 
     if [ "$2" == "latest" ]
     then
-        docker tag brianlmoon/php:$IMAGE brianlmoon/php:latest
-        docker push brianlmoon/php:latest
+        TAGS="$TAGS -t brianlmoon/php:latest"
     fi
+
+    docker buildx build \
+        --platform linux/arm/v6,linux/amd64 \
+        -t brianlmoon/php:$IMAGE \
+        $TAGS \
+        --build-arg BASEIMAGE=$IMAGE \
+        --cache-from brianlmoon/php:$IMAGE \
+        --push \
+        .
 }
 
+build 8.3-fpm-alpine latest && \
+build 8.2-fpm-alpine && \
+build 8.1-fpm-alpine && \
 build 8.0-fpm-alpine
-build 8.1-fpm-alpine
-build 8.2-fpm-alpine latest
