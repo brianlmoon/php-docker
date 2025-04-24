@@ -13,7 +13,6 @@ function build() {
 
     TAGS="$TAGS -t brianlmoon/php:"`echo $VERSION | awk -F . {'print $1"."$2"."$3'}`
     TAGS="$TAGS -t brianlmoon/php:"`echo $VERSION | awk -F . {'print $1"."$2'}`
-    TAGS="$TAGS -t brianlmoon/php:"`echo $VERSION | awk -F . {'print $1'}`
 
     if [ "$2" == "latest" ]
     then
@@ -21,7 +20,7 @@ function build() {
     fi
 
     docker buildx build \
-        --platform linux/arm/v6,linux/amd64 \
+        --platform linux/amd64,linux/arm64 \
         -t brianlmoon/php:$IMAGE \
         $TAGS \
         --build-arg BASEIMAGE=$IMAGE \
@@ -30,7 +29,7 @@ function build() {
         .
 }
 
-build 8.3-fpm-alpine latest && \
-build 8.2-fpm-alpine && \
 build 8.1-fpm-alpine && \
-build 8.0-fpm-alpine
+build 8.2-fpm-alpine && \
+build 8.3-fpm-alpine && \
+build 8.4-fpm-alpine latest
