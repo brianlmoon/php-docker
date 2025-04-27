@@ -1,5 +1,5 @@
 ARG BASEIMAGE=8-fpm-alpine
-FROM php:$BASEIMAGE as base
+FROM php:$BASEIMAGE AS base
 
 ARG TIMEZONE=UTC
 ARG STDUSER=php
@@ -58,7 +58,7 @@ RUN install-php-extensions \
     zip
 
 # Install Dockerize used in the entrypoint
-ENV DOCKERIZE_VERSION v0.8.0
+ENV DOCKERIZE_VERSION=v0.8.0
 RUN curl -L -O https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
