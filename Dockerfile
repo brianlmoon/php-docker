@@ -3,6 +3,8 @@ FROM php:$BASEIMAGE AS base
 
 ARG TIMEZONE=UTC
 ARG STDUSER=php
+ARG STDUID=1000
+ARG STDGID=1000
 
 # Set time zone
 RUN apk add --update alpine-conf tzdata && \
@@ -10,9 +12,9 @@ RUN apk add --update alpine-conf tzdata && \
     echo $TIMEZONE > /etc/timezone && \
     apk del alpine-conf tzdata
 
-# Add dealnews user and group
-RUN addgroup -S -g 1000 $STDUSER && \
-    adduser -S -u 1000 -h /home/$STDUSER -s /bin/sh -G $STDUSER $STDUSER
+# Add php user and group
+RUN addgroup -S -g $STDGID $STDUSER && \
+    adduser -S -u $STDUID -h /home/$STDUSER -s /bin/sh -G $STDUSER $STDUSER
 
 COPY --from=mlocati/php-extension-installer \
     /usr/bin/install-php-extensions \
