@@ -36,7 +36,7 @@ VERSION82=`curl 'https://raw.githubusercontent.com/docker-library/php/refs/heads
 VERSION83=`curl 'https://raw.githubusercontent.com/docker-library/php/refs/heads/master/8.3/alpine3.21/fpm/Dockerfile' -s | fgrep ' PHP_VERSION ' | awk '{print $3}'`
 VERSION84=`curl 'https://raw.githubusercontent.com/docker-library/php/refs/heads/master/8.4/alpine3.21/fpm/Dockerfile' -s | fgrep ' PHP_VERSION ' | awk '{print $3}'`
 
-# build $VERSION81-fpm-alpine && \
+build $VERSION81-fpm-alpine && \
 build $VERSION82-fpm-alpine && \
 build $VERSION83-fpm-alpine && \
 build $VERSION84-fpm-alpine latest
