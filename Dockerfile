@@ -1,6 +1,6 @@
 ARG BASEIMAGE=8-fpm-alpine
 FROM php:$BASEIMAGE AS base
-
+ARG TARGETARCH
 ARG TIMEZONE=UTC
 ARG STDUSER=php
 ARG STDUID=1000
@@ -61,9 +61,9 @@ RUN install-php-extensions \
 
 # Install Dockerize used in the entrypoint
 ENV DOCKERIZE_VERSION=v0.8.0
-RUN curl -L -O https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+RUN curl -L -O https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-${TARGETARCH}-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-${TARGETARCH}-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-linux-${TARGETARCH}-$DOCKERIZE_VERSION.tar.gz
 
 # Set entrypoint and unset CMD
 COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
